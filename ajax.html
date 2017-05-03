@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        div{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: #000;
+            position: absolute;
+            margin-top:150px;
+            line-height: 100px;
+            color:white;
+            text-align: center;
+        }
+        .one{
+            margin-left:0;
+        }
+        .two{
+            margin-left:200px;
+        }
+        .three{
+            margin-left:400px;
+        }
+
+    </style>
+</head>
+<body>
+<div class="one"></div>
+<div class="two"></div>
+<div class="three"></div>
+<script src="ajax.js"></script>
+<script>
+    let div1 = document.querySelector('.one');
+    let div2 = document.querySelector('.two');
+    let div3 = document.querySelector('.three');
+    function ballGo(ele,distance) {
+        return new Promise(function (resolve,reject) {
+            function _animate() {
+                let mLeft = parseInt(window.getComputedStyle(ele).marginLeft);
+                console.log(mLeft);
+                setTimeout(function () {
+                    if(mLeft>=distance){
+                        resolve(ele,distance);
+                    }else{
+                        mLeft++;
+                        ele.style.marginLeft = mLeft+'px';
+                        _animate();
+                    }
+                },10);
+            }
+            _animate();
+        })
+    }
+    ballGo(div1,100).then(function () {
+        return ballGo(div2,300);
+    }).then(function () {
+        return ballGo(div3,600);
+    })
+</script>
+</body>
+</html>
